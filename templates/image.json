@@ -1,0 +1,173 @@
+{
+  "version": 8,
+  "graph": {
+    "viewport": {
+      "xmin": 0,
+      "ymin": 0,
+      "xmax": 0,
+      "ymax": 0
+    },
+    "showGrid": false,
+    "showXAxis": false,
+    "showYAxis": false
+  },
+  "randomSeed": "",
+  "expressions": {
+    "list": [
+      {
+        "type": "folder",
+        "id": "0",
+        "title": "Data points",
+        "hidden": true,
+        "collapsed": true
+      },
+      {
+        "id": "data",
+        "type": "table",
+        "folderId": "0",
+        "columns": [
+          {
+            "values": [
+              ""
+            ],
+            "hidden": true,
+            "id": "1",
+            "color": "#000000",
+            "latex": "P_{x}"
+          },
+          {
+            "values": [
+              ""
+            ],
+            "id": "2",
+            "color": "#c74440",
+            "latex": "P_{y}"
+          },
+          {
+            "values": [
+              ""
+            ],
+            "hidden": true,
+            "id": "3",
+            "color": "#2d70b3",
+            "latex": "Q_{x}"
+          },
+          {
+            "values": [
+              ""
+            ],
+            "hidden": true,
+            "id": "4",
+            "color": "#2d70b3",
+            "latex": "Q_{y}"
+          },
+          {
+            "values": [
+              ""
+            ],
+            "hidden": true,
+            "id": "5",
+            "color": "#388c46",
+            "latex": "R_{x}"
+          },
+          {
+            "values": [
+              ""
+            ],
+            "hidden": true,
+            "id": "6",
+            "color": "#388c46",
+            "latex": "R_{y}"
+          },
+          {
+            "values": [
+              ""
+            ],
+            "hidden": true,
+            "id": "7",
+            "color": "#000000",
+            "latex": "O"
+          }
+        ]
+      },
+      {
+        "type": "expression",
+        "id": "8",
+        "folderId": "0",
+        "color": "#2d70b3",
+        "latex": "n=\\operatorname{length}\\left(P_{x}\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "9",
+        "folderId": "0",
+        "color": "#6042a6",
+        "latex": "s\\left(X\\right)=\\operatorname{join}\\left(X\\left[n\\right],X\\left[1...n-1\\right]\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "10",
+        "folderId": "0",
+        "color": "#2d70b3",
+        "latex": "\\left(\\left(1-t\\right)P_{x}+tQ_{x},\\left(1-t\\right)P_{y}+tQ_{y}\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "11",
+        "folderId": "0",
+        "color": "#388c46",
+        "latex": "\\left(\\left(1-t\\right)P_{x}+ts\\left(R_{x}\\right),\\left(1-t\\right)P_{y}+ts\\left(R_{y}\\right)\\right)"
+      },
+      {
+        "type": "folder",
+        "id": "12",
+        "title": "Basis functions",
+        "hidden": true,
+        "collapsed": true
+      },
+      {
+        "type": "expression",
+        "id": "13",
+        "folderId": "12",
+        "color": "#c74440",
+        "latex": "A\\left(t\\right)=\\left\\{\\operatorname{abs}\\left(t\\right)<1:\\left(1-\\operatorname{abs}\\left(t\\right)\\right)^{3},n-1<t:\\left(1+t-n\\right)^{3},0\\right\\}"
+      },
+      {
+        "type": "expression",
+        "id": "14",
+        "folderId": "12",
+        "color": "#2d70b3",
+        "latex": "B\\left(t\\right)=\\left\\{0<t<1:3t\\left(1-t\\right)^{2},0\\right\\}"
+      },
+      {
+        "type": "expression",
+        "id": "15",
+        "folderId": "12",
+        "color": "#388c46",
+        "latex": "C\\left(t\\right)=\\left\\{0<t<1:3t^{2}\\left(1-t\\right),0\\right\\}"
+      },
+      {
+        "type": "expression",
+        "id": "16",
+        "color": "#6042a6",
+        "latex": "F\\left(P,Q,R\\right)=\\sum_{i=1}^{n}\\left(A\\left(t-i\\right)P\\left[i\\right]+B\\left(t-i\\right)Q\\left[i\\right]+C\\left(t-i\\right)R\\left[i\\right]\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "17",
+        "color": "#000000",
+        "latex": "\\left(F\\left(P_{x},Q_{x},R_{x}\\right),F\\left(P_{y},Q_{y},R_{y}\\right)\\right)O\\left[t\\right]",
+        "lines": true,
+        "fill": true,
+        "parametricDomain": {
+          "min": "1",
+          "max": "n+1"
+        },
+        "domain": {
+          "min": "1",
+          "max": "n+1"
+        }
+      }
+    ]
+  }
+}
