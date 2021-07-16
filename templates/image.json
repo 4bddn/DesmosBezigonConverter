@@ -33,7 +33,7 @@
             "hidden": true,
             "id": "1",
             "color": "#000000",
-            "latex": "P_{x}"
+            "latex": "P_x"
           },
           {
             "values": [
@@ -41,7 +41,7 @@
             ],
             "id": "2",
             "color": "#c74440",
-            "latex": "P_{y}"
+            "latex": "P_y"
           },
           {
             "values": [
@@ -50,7 +50,7 @@
             "hidden": true,
             "id": "3",
             "color": "#2d70b3",
-            "latex": "Q_{x}"
+            "latex": "Q_x"
           },
           {
             "values": [
@@ -59,7 +59,7 @@
             "hidden": true,
             "id": "4",
             "color": "#2d70b3",
-            "latex": "Q_{y}"
+            "latex": "Q_y"
           },
           {
             "values": [
@@ -68,7 +68,7 @@
             "hidden": true,
             "id": "5",
             "color": "#388c46",
-            "latex": "R_{x}"
+            "latex": "R_x"
           },
           {
             "values": [
@@ -77,7 +77,7 @@
             "hidden": true,
             "id": "6",
             "color": "#388c46",
-            "latex": "R_{y}"
+            "latex": "R_y"
           },
           {
             "values": [
@@ -94,22 +94,22 @@
         "type": "expression",
         "id": "8",
         "folderId": "0",
-        "color": "#2d70b3",
-        "latex": "n=\\operatorname{length}\\left(P_{x}\\right)"
+        "color": "#c74440",
+        "latex": "n=\\operatorname{length}(P_x)"
       },
       {
         "type": "expression",
         "id": "9",
         "folderId": "0",
         "color": "#2d70b3",
-        "latex": "\\left(\\left(1-t\\right)P_{x}+tQ_{x},\\left(1-t\\right)P_{y}+tQ_{y}\\right)"
+        "latex": "\\left((1-t)P_x+tQ_x,(1-t)P_y+tQ_y\\right)"
       },
       {
         "type": "expression",
         "id": "10",
         "folderId": "0",
         "color": "#388c46",
-        "latex": "\\left(\\left(1-t\\right)P_{x}\\left[2...\\right]+tR_{x},\\left(1-t\\right)P_{y}\\left[2...\\right]+tR_{y}\\right)"
+        "latex": "\\left((1-t)P_x[2...]+tR_x,(1-t)P_y[2...]+tR_y\\right)"
       },
       {
         "type": "folder",
@@ -123,33 +123,33 @@
         "id": "12",
         "folderId": "11",
         "color": "#c74440",
-        "latex": "A\\left(t\\right)=\\left\\{\\operatorname{abs}\\left(t\\right)<1:\\left(1-\\operatorname{abs}\\left(t\\right)\\right)^{3},0\\right\\}"
+        "latex": "A(t)=\\left\\{\\operatorname{abs}(t)<1:(1-\\operatorname{abs}(t))^3,0\\right\\}"
       },
       {
         "type": "expression",
         "id": "13",
         "folderId": "11",
         "color": "#2d70b3",
-        "latex": "B\\left(t\\right)=\\left\\{0<t<1:3t\\left(1-t\\right)^{2},0\\right\\}"
+        "latex": "B(t)=\\left\\{0<t<1:3t(1-t)^2,0\\right\\}"
       },
       {
         "type": "expression",
         "id": "14",
         "folderId": "11",
         "color": "#388c46",
-        "latex": "C\\left(t\\right)=\\left\\{0<t<1:3t^{2}\\left(1-t\\right),0\\right\\}"
+        "latex": "C(t)=\\left\\{0<t<1:3t^2(1-t),0\\right\\}"
       },
       {
         "type": "expression",
         "id": "15",
-        "color": "#6042a6",
-        "latex": "F\\left(P,Q,R\\right)=\\sum_{i=1}^{n}\\left(A\\left(t-i\\right)P\\left[i\\right]+B\\left(t-i\\right)Q\\left[i\\right]+C\\left(t-i\\right)R\\left[i\\right]\\right)"
+        "color": "#000000",
+        "latex": "F(P,Q,R)=\\sum_{i=1}^n\\left(A(t-i)P[i]+B(t-i)Q[i]+C(t-i)R[i]\\right)"
       },
       {
         "type": "expression",
         "id": "16",
         "color": "#000000",
-        "latex": "\\left(F\\left(P_{x},Q_{x},R_{x}\\right),F\\left(P_{y},Q_{y},R_{y}\\right)\\right)O\\left[t\\right]",
+        "latex": "\\left(F(P_x,Q_x,R_x),F(P_y,Q_y,R_y)\\right)O[t]",
         "lines": true,
         "fill": true,
         "parametricDomain": {
