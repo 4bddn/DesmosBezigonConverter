@@ -101,60 +101,53 @@
         "type": "expression",
         "id": "9",
         "folderId": "0",
-        "color": "#6042a6",
-        "latex": "s\\left(X\\right)=\\operatorname{join}\\left(X\\left[n\\right],X\\left[1...n-1\\right]\\right)"
-      },
-      {
-        "type": "expression",
-        "id": "10",
-        "folderId": "0",
         "color": "#2d70b3",
         "latex": "\\left(\\left(1-t\\right)P_{x}+tQ_{x},\\left(1-t\\right)P_{y}+tQ_{y}\\right)"
       },
       {
         "type": "expression",
-        "id": "11",
+        "id": "10",
         "folderId": "0",
         "color": "#388c46",
-        "latex": "\\left(\\left(1-t\\right)P_{x}+ts\\left(R_{x}\\right),\\left(1-t\\right)P_{y}+ts\\left(R_{y}\\right)\\right)"
+        "latex": "\\left(\\left(1-t\\right)P_{x}\\left[2...\\right]+tR_{x},\\left(1-t\\right)P_{y}\\left[2...\\right]+tR_{y}\\right)"
       },
       {
         "type": "folder",
-        "id": "12",
+        "id": "11",
         "title": "Basis functions",
         "hidden": true,
         "collapsed": true
       },
       {
         "type": "expression",
-        "id": "13",
-        "folderId": "12",
+        "id": "12",
+        "folderId": "11",
         "color": "#c74440",
-        "latex": "A\\left(t\\right)=\\left\\{\\operatorname{abs}\\left(t\\right)<1:\\left(1-\\operatorname{abs}\\left(t\\right)\\right)^{3},n-1<t:\\left(1+t-n\\right)^{3},0\\right\\}"
+        "latex": "A\\left(t\\right)=\\left\\{\\operatorname{abs}\\left(t\\right)<1:\\left(1-\\operatorname{abs}\\left(t\\right)\\right)^{3},0\\right\\}"
       },
       {
         "type": "expression",
-        "id": "14",
-        "folderId": "12",
+        "id": "13",
+        "folderId": "11",
         "color": "#2d70b3",
         "latex": "B\\left(t\\right)=\\left\\{0<t<1:3t\\left(1-t\\right)^{2},0\\right\\}"
       },
       {
         "type": "expression",
-        "id": "15",
-        "folderId": "12",
+        "id": "14",
+        "folderId": "11",
         "color": "#388c46",
         "latex": "C\\left(t\\right)=\\left\\{0<t<1:3t^{2}\\left(1-t\\right),0\\right\\}"
       },
       {
         "type": "expression",
-        "id": "16",
+        "id": "15",
         "color": "#6042a6",
         "latex": "F\\left(P,Q,R\\right)=\\sum_{i=1}^{n}\\left(A\\left(t-i\\right)P\\left[i\\right]+B\\left(t-i\\right)Q\\left[i\\right]+C\\left(t-i\\right)R\\left[i\\right]\\right)"
       },
       {
         "type": "expression",
-        "id": "17",
+        "id": "16",
         "color": "#000000",
         "latex": "\\left(F\\left(P_{x},Q_{x},R_{x}\\right),F\\left(P_{y},Q_{y},R_{y}\\right)\\right)O\\left[t\\right]",
         "lines": true,

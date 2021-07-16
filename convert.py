@@ -53,38 +53,24 @@ except (SystemError, AssertionError):
 # Trace curves on input data
 height, width = data.shape[:2]
 bitmap = mkbitmap(data, f=args.filter, s=args.scale, t=args.threshold) == 0
-points = [list() for _ in range(7)]
-def append(x, point):
-    points[2*x].append(point[0] / args.scale)
-    points[2*x+1].append(height - point[1] / args.scale)
-def copy(x, y, first=False):
-    points[2*y].append(points[2*x][0 if first else -1])
-    points[2*y+1].append(points[2*x+1][0 if first else -1])
-def opaque(val):
-    points[-1].append(val)
+values = [list() for _ in range(7)]
+points = []
 for curve in potrace.Bitmap(bitmap).trace(**{x:vars(args)[x] for x in ('turdsize', 'alphamax', 'opttolerance')}):
-    if points[0]:
-        copy(0, 1)
-        append(2, curve.start_point)
-        opaque(False)
-    append(0, curve.start_point)
+    prev = (0, 2*height) if not points else segment.end_point
+    points.append([curve.start_point, curve.start_point, prev, False])
     for segment in curve:
         if segment.is_corner:
             # TODO: line coalescence
-            copy(0, 1)
-            append(2, segment.c)
-            opaque(True)
-            append(0, segment.c)
-            append(1, segment.c)
-            append(2, segment.end_point)
+            points.append([segment.c, segment.c, points[-1][0], True])
+            points.append([segment.end_point, segment.end_point, segment.c, True])
         else:
-            append(1, segment.c1)
-            append(2, segment.c2)
-        opaque(True)
-        append(0, segment.end_point)
-copy(0, 1)
-copy(0, 2, first=True)
-opaque(False)
+            points.append([segment.end_point, segment.c2, segment.c1, True])
+
+for row in reversed(points):
+    for i in range(6):
+        values[i].append(row[i//2][i%2] / args.scale)
+        if i%2: values[i][-1] = height - values[i][-1]
+    values[-1].append(row[-1])
 
 
 # Write to a Desmos calculator
@@ -98,8 +84,8 @@ def num2str(n):
 table = next(filter( \
     lambda exp: exp['id'] == 'data' and exp['type'] == 'table', \
     state['expressions']['list']))
-for column, values in zip(table['columns'], points):
-    column['values'] = [num2str(num) for num in values]
+for column, nums in zip(table['columns'], values):
+    column['values'] = [num2str(num) for num in nums]
     
 with open(args.output, 'w') as output:
     output.write(f"Calc.setState({json.dumps(state, separators=(',', ':'))})")
