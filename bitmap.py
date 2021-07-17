@@ -3,7 +3,7 @@ import numpy as np
 
 
 def mkbitmap(image, f=4, s=2, t=0.45):
-    """Convert an image to a bilevel bitmap
+    """Convert an image to a bilevel bitmap.
     Imitates part of Peter Selinger's `mkbitmap(1)`.
     """
     
