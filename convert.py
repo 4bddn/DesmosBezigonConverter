@@ -55,13 +55,18 @@ height, width = data.shape[:2]
 bitmap = mkbitmap(data, f=args.filter, s=args.scale, t=args.threshold) == 0
 values = [list() for _ in range(7)]
 points = []
+def collinear(a, b, c):
+    return (b[1]-a[1])*(c[0]-b[0]) - (b[0]-a[0])*(c[1]-b[1]) < 1e-3
 for curve in potrace.Bitmap(bitmap).trace(**{x:vars(args)[x] for x in ('turdsize', 'alphamax', 'opttolerance')}):
     prev = (0, 2*height) if not points else segment.end_point
     points.append([curve.start_point, curve.start_point, prev, False])
     for segment in curve:
         if segment.is_corner:
-            # TODO: line coalescence
-            points.append([segment.c, segment.c, points[-1][0], True])
+            # Attempt to coalesce adjacent line segments
+            if points[-1][0] == points[-1][1] and collinear(segment.c, points[-1][0], points[-1][2]) and points[-1][-1]:
+                points[-1][:2] = [segment.c, segment.c]
+            else:
+                points.append([segment.c, segment.c, points[-1][0], True])
             points.append([segment.end_point, segment.end_point, segment.c, True])
         else:
             points.append([segment.end_point, segment.c2, segment.c1, True])
