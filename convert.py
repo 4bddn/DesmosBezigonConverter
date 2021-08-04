@@ -29,9 +29,13 @@ def get_arguments() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Trace a graphic and convert to a Desmos graph")
     parser.add_argument('input', type=Path, help="input file containing an image", metavar='filename')
     parser.add_argument('-o', '--output', help="name of the produced graph script", metavar='filename')
-    parser.add_argument('-f', '--filter', default=None, type=float, choices=[Range(0)], \
+    parser.add_argument('-ca', '--coloravg', action='store_true', \
+        help="disable channel weighting during grayscale convesion")
+    parser.add_argument('-lp', '--lowpass', default=None, type=float, choices=[Range(0)], \
+        help="use a low-pass filter with standard deviation n", metavar='n')
+    parser.add_argument('-hp', '--highpass', default=None, type=float, choices=[Range(0)], \
         help="use a high-pass filter with standard deviation n", metavar='n')
-    parser.add_argument('-t', '--threshold', default=0.5, type=float, choices=[Range(0, 1)], \
+    parser.add_argument('-th', '--threshold', default=0.5, type=float, choices=[Range(0, 1)], \
         help="brightness value for binary thresholding", metavar='n')
     parser.add_argument('-ts', '--turdsize', default=2, type=float, choices=[Range(0)], \
         help="despeckle by ignoring areas smaller than a", metavar='a')
@@ -39,12 +43,19 @@ def get_arguments() -> argparse.Namespace:
         help="smoothness of the created curve", metavar='α')
     parser.add_argument('-ot', '--opttolerance', default=0.2, type=float, choices=[Range(0)], \
         help="amount of error allowed in the tracing step", metavar='e')
+    parser.add_argument('-d', '--debug', action='store_true', help="enable debug mode")
     args = parser.parse_args()
     if args.output is None:
         args.output = args.input.with_suffix('.js')
     args.template = Path('templates') / 'image.json'
     args.scale = 2
     return args
+
+def print_arguments(args: argparse.Namespace):
+    """Output selected parameters."""
+    for name, val in vars(args).items():
+        if name in ('input', 'output', 'template', 'scale', 'debug'): continue
+        print(name, ':', val)
 
 
 def trace_convert(data, args) -> List[List[int]]:
@@ -57,14 +68,14 @@ def trace_convert(data, args) -> List[List[int]]:
     to be inserted in whole rows, the points in each segment are reversed. To make the new
     order contiguous, the segments are reversed at a later stage.
     """
+    def params(*names): return {x: vars(args)[x] for x in names}
     args.height, args.width = data.shape[:2]
-    bitmap = mkbitmap(data, f=args.filter, s=args.scale, t=args.threshold) == 0
+    bitmap = mkbitmap(data, **params('coloravg', 'lowpass', 'highpass', 'scale', 'threshold', 'debug')) == 0
     values = [list() for _ in range(7)]
     points = []
     def collinear(a, b, c):
         return (b[1]-a[1])*(c[0]-b[0]) - (b[0]-a[0])*(c[1]-b[1]) < 1e-3
-    params = {x: vars(args)[x] for x in ('turdsize', 'alphamax', 'opttolerance')}
-    for curve in potrace.Bitmap(bitmap).trace(**params):
+    for curve in potrace.Bitmap(bitmap).trace(**params('turdsize', 'alphamax', 'opttolerance')):
         # For optimization reasons, the last segment tends to (0, 0)
         prev = (0, 2*args.height) if not points else segment.end_point
         points.append([curve.start_point, curve.start_point, prev, False])
@@ -92,6 +103,7 @@ def trace_convert(data, args) -> List[List[int]]:
 if __name__ == '__main__':
     # Get filenames and algorithm parameters
     args = get_arguments()
+    print_arguments(args)
 
     # Read the input image
     try:
